@@ -16,12 +16,14 @@ export const actions = {
   // Accept a pasted list of attendees and insert into a new table
   pasted: async ({ request }) => {
     // Create a route that accepts a list of attendees and inserts them into a new table
+    const form = await request.formData();
+    const attendees = form.get("attendees");
+    const eventName = attendees?.split("\n")[0].trim().replace(/\s/g, "_").toLowerCase() ?? Date.now();
 
-    // Get the list of attendees from the request
-    const { attendees, eventName } = await request.json();
+    console.log(eventName +':\n' + attendees)
 
     // Create a new table with the event name
-    const { error: createError } = await supabase.rpc("create_table", { name: eventName });
+    const { error: createError } = await supabase.rpc("create_table", { table: eventName });
 
     if (createError) {
       return {
