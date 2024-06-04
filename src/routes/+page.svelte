@@ -1,5 +1,6 @@
 <script>
   import Dropzone from "svelte-file-dropzone";
+  export let data;
 
   /**
 	 * @type {string | any[]}
@@ -10,9 +11,10 @@
 	 */
   let fileData = [];
 
-  function processRawCSV(data) {
+  // @ts-ignore
+  function processRawCSV(contents) {
     const output = [];
-    const rows = data.split("\n");
+    const rows = contents.split("\n");
     for (let i = 0; i < rows.length; i++) {
       const cells = rows[i].split(",");
       output.push(cells);
@@ -40,10 +42,13 @@
 
 <h1>Check In App</h1>
 <h3>New Check-in list</h3>
-<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv" />
-{#each files as item}
-  <h2>{item.name}</h2>
-{/each}
+<form method="post">
+  <Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv" />
+  {#each files as item}
+    <h2>{item.name}</h2>
+  {/each}
+  <button type="submit">Upload</button>
+</form>
 
 
 <table border="1">
@@ -58,6 +63,8 @@
 
 <h3>Current Check-ins:</h3>
 <!-- for each checkin list -->
-  <ol>
-    <li><a href="/check-in">Feminist Authors</a></li>
-  </ol>
+{#each data.tables as table }
+<ul>
+  <li>{table}</li>
+</ul>
+{/each}
