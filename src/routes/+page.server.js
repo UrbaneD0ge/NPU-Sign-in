@@ -13,14 +13,14 @@ export async function load() {
 }
 
 export const actions = {
-// Accept uploaded csv file and insert into a new table
+// Accept uploaded csv file and insert into a new table?
   default: async ({ request }) => {
     const form = await request.formData();
     const file = form.get("file");
     // upload csv file to storage
     const { error: uploadError } = await supabase.storage
       .from("csv")
-      .upload(file.name, file);
+      .upload(file, file);
 
     if (uploadError) {
       return {
@@ -31,20 +31,7 @@ export const actions = {
 
       console.log(file)
 
-      // get first word of file name to use as table name
-      const eventName = file.name.split(" ")[0];
-
-      // create table with event name
-      const { error: tableError } = await supabase.rpc("create_table", {
-        table_name: eventName,
-      });
-
-      if (tableError) {
-        return {
-          status: 500,
-          body: tableError,
-        };
-      }
+      // TODO: Parse the table in the browser and insert into the table
 
       // insert attendees into table
       const { data, error } = await supabase.from(eventName).insert(attendees);

@@ -4,6 +4,8 @@
   export let data;
 </script>
 
+<!-- Make this into a reusable page that creates a checkin page for any uploaded CSV -->
+
 <h1>Check-in App</h1>
 <!-- <p>{JSON.stringify(data)}</p> -->
 <table>

@@ -41,6 +41,16 @@
 
 
 <h1>Check In App</h1>
+
+<h3>Current Check-ins:</h3>
+<!-- for each checkin list -->
+{#each data.tables as table }
+<ul>
+  <li>{table}</li>
+</ul>
+{/each}
+
+<hr>
 <h3>New Check-in list</h3>
 <form method="post">
   <Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv" />
@@ -50,7 +60,7 @@
   <button type="submit">Upload</button>
 </form>
 
-
+<hr>
 <table border="1">
   {#each fileData as row}
     <tr>
@@ -60,11 +70,11 @@
     </tr>
   {/each}
 </table>
-
-<h3>Current Check-ins:</h3>
-<!-- for each checkin list -->
-{#each data.tables as table }
-<ul>
-  <li>{table}</li>
-</ul>
-{/each}
+<hr>
+<h3>Or paste attendees here:</h3>
+<form method="post">
+<textarea name="attendees" id="copypaste"
+cols="45" rows="10" placeholder="Paste attendees here"
+></textarea><br>
+<button type="button" id="parse">Parse</button>
+</form>
