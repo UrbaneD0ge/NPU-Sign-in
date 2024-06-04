@@ -46,13 +46,13 @@
 <!-- for each checkin list -->
 {#each data.tables as table }
 <ul>
-  <li>{table}</li>
+  <li><a href="/{table}">{table}</a></li>
 </ul>
 {/each}
 
 <hr>
 <h3>New Check-in list</h3>
-<form method="post">
+<form method="post" action="csv">
   <Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv" />
   {#each files as item}
     <h2>{item.name}</h2>
@@ -70,11 +70,14 @@
     </tr>
   {/each}
 </table>
+
 <hr>
+<!-- COPYPASTE ATTENDEES LIST -->
 <h3>Or paste attendees here:</h3>
-<form method="post">
+<form method="post" action="?/pasted">
+  <!-- <input type="text" name="eventName" id="eventName" placeholder="Event Name"><br> -->
 <textarea name="attendees" id="copypaste"
 cols="45" rows="10" placeholder="Paste attendees here"
 ></textarea><br>
-<button type="button" id="parse">Parse</button>
+<button type="submit" id="pasted">Parse</button>
 </form>
