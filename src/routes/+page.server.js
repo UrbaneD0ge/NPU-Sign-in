@@ -20,22 +20,23 @@ export const actions = {
     const attendees = form.get("attendees");
     const eventName = form.get("eventName");
 
-    console.log(eventName +':\n' + attendees)
+    console.log(eventName + ':\n' + attendees)
 
     // Create a new table with the event name
-    const { error: createError } = await supabase.rpc("create_table", { table: eventName });
+    const { error: createError } = await supabase.rpc("create_table", { eventname: eventName });
 
     if (createError) {
       return {
         status: 500,
         body: createError,
+        message: "Error creating table" + JSON.stringify(createError),
       };
     }
 
     // insert attendees into table
-    const { data, error } = await supabase.from(eventName).insert(attendees);
+    const { data, error } = await supabase.from('eventname').insert({name: attendees});
 
-    console.log(data, error)
+    console.log("data: " + data, "error: " + error)
 
     // redirect to a dynamic page with the eventName
     return {

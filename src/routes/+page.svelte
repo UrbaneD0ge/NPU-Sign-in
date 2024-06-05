@@ -66,7 +66,9 @@
     <textarea value={fileData} name="attendees" cols="100" rows="10"/>
     <button type="submit">Upload</button>
   </form>
-{form?.message}
+{#if form?.message && form?.message !== ''}
+  <p style="color: red;">{form?.message}</p>
+{/if}
 
 <hr>
 <!-- COPYPASTE ATTENDEES LIST -->
