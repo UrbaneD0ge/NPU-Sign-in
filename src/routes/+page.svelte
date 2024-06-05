@@ -1,6 +1,7 @@
 <script>
+	import { enhance } from "$app/forms";
   import Dropzone from "svelte-file-dropzone";
-  export let data;
+  export let data, form;
 
   /**
 	 * @type {string | any[]}
@@ -18,6 +19,10 @@
     for (let i = 0; i < rows.length; i++) {
       const cells = rows[i].split(",");
       output.push(cells);
+    }
+    // drop any columns past the first 3
+    for (let i = 0; i < output.length; i++) {
+      output[i] = output[i].slice(0, 3);
     }
     return output;
   }
@@ -52,32 +57,24 @@
 
 <hr>
 <h3>New Check-in list</h3>
-<form method="post" action="csv">
-  <Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv" />
-  {#each files as item}
-    <h2>{item.name}</h2>
-  {/each}
-  <button type="submit">Upload</button>
-</form>
-
-<hr>
-<table border="1">
-  {#each fileData as row}
-    <tr>
-      {#each row as item}
-        <td>{item}</td>
-      {/each}
-    </tr>
-  {/each}
-</table>
+<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv" />
+{#each files as item}
+<h2>{item.name}</h2>
+{/each}
+  <form method="post" use:enhance>
+    <input type="text" name="eventName" value={files[0]?.name.split(",") ?? ''} /><br>
+    <textarea value={fileData} name="attendees" cols="100" rows="10"/>
+    <button type="submit">Upload</button>
+  </form>
+{form?.message}
 
 <hr>
 <!-- COPYPASTE ATTENDEES LIST -->
-<h3>Or paste attendees here:</h3>
-<form method="post" action="?/pasted">
+<!-- <h3>Or paste attendees here:</h3>
+<form method="post"> -->
   <!-- <input type="text" name="eventName" id="eventName" placeholder="Event Name"><br> -->
-<textarea name="attendees" id="copypaste"
+<!-- <textarea name="attendees" id="copypaste"
 cols="45" rows="10" placeholder="Paste attendees here"
-></textarea><br>
-<button type="submit" id="pasted">Parse</button>
-</form>
+></textarea><br> -->
+<!-- <button type="submit" id="pasted">Parse</button>
+</form> -->

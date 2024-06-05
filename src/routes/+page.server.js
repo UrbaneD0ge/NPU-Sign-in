@@ -14,11 +14,11 @@ export async function load() {
 
 export const actions = {
   // Accept a pasted list of attendees and insert into a new table
-  pasted: async ({ request }) => {
+  default: async ({ request }) => {
     // Create a route that accepts a list of attendees and inserts them into a new table
     const form = await request.formData();
     const attendees = form.get("attendees");
-    const eventName = attendees?.split("\n")[0].trim().replace(/\s/g, "_").toLowerCase() ?? Date.now();
+    const eventName = form.get("eventName");
 
     console.log(eventName +':\n' + attendees)
 
@@ -35,44 +35,40 @@ export const actions = {
     // insert attendees into table
     const { data, error } = await supabase.from(eventName).insert(attendees);
 
-    // redirect to a dynamic page with the table name
+    console.log(data, error)
 
-
+    // redirect to a dynamic page with the eventName
     return {
-      status: error ? 500 : 200,
-      body: error ? error : data,
+      status: 302,
+      headers: {
+        location: `/+${eventName}`,
+      },
     };
+
+    // return {
+    //   status: error ? 500 : 200,
+    //   body: error ? error : data,
+    // };
   },
 
-// Accept uploaded csv file and insert into a new table?
-  csv: async ({ request }) => {
-    const form = await request.formData();
-    const file = form.get("file");
-    // upload csv file to storage
-    const { error: uploadError } = await supabase.storage
-      .from("csv")
-      .upload(file, file);
+// // Accept uploaded csv file and insert into a new table?
+//   csv: async ({ request }) => {
+//     const form = await request.formData();
+//     const attendees = form.get("attendees");
 
-    if (uploadError) {
-      return {
-        status: 500,
-        body: uploadError,
-      };
-    }
+//       console.log(file)
 
-      console.log(file)
+//       // TODO: Parse the table in the browser and insert into the table
 
-      // TODO: Parse the table in the browser and insert into the table
+//       // insert attendees into table
+//       const { data, error } = await supabase.from(eventName).insert(attendees);
 
-      // insert attendees into table
-      const { data, error } = await supabase.from(eventName).insert(attendees);
+//       // const { data, error } = await supabase.from("attendees").insert(attendees);
 
-      // const { data, error } = await supabase.from("attendees").insert(attendees);
-
-      return {
-        status: error ? 500 : 200,
-        body: error ? error : data,
-      };
-  }
+//       return {
+//         status: error ? 500 : 200,
+//         body: error ? error : data,
+//       };
+//   }
 
 };
