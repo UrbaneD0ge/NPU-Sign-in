@@ -4,7 +4,7 @@ export async function load() {
   // Get all tables
   const { data, error } = await supabase.rpc("get_tables");
 
-  console.log(data)
+  // console.log(data)
 
   return {
     tables: data ?? [],
@@ -20,12 +20,13 @@ export const actions = {
     const attendees = form.get("attendees");
     const eventName = form.get("eventName");
 
-    console.log(eventName + ':\n' + attendees)
+    // console.log(eventName + ':\n' + attendees)
 
     // Create a new table with the event name
     const { error: createError } = await supabase.rpc("create_table", { eventname: eventName });
 
     if (createError) {
+      console.log(createError)
       return {
         status: 500,
         body: createError,
@@ -34,7 +35,20 @@ export const actions = {
     }
 
     // insert attendees into table
-    const { data, error } = await supabase.from('eventname').insert({name: attendees});
+    for (let i = 0; i < attendees.length; i++) {
+      const { data, error } = await supabase.from(eventName).insert({ name: attendees[i] });
+
+      if (error) {
+        return {
+          status: 500,
+          body: error,
+          message: "Error inserting attendees into table" + JSON.stringify(error),
+        };
+      }
+
+      console.log(data)
+    };
+
 
     console.log("data: " + data, "error: " + error)
 

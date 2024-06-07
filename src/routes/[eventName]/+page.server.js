@@ -1,8 +1,13 @@
 import { supabase } from "$lib/supabaseClient";
 
-export async function load() {
-  const { data } = await supabase.from("attendees").select();
+/** @type {import('./$types').PageData} */
+
+export async function load({ route, url }) {
+  let table = url.pathname.split('/')[1]
+  console.log(table)
+  const { data } = await supabase.from(table).select();
   return {
+    table: table,
     attendees: data ?? [],
   };
 }

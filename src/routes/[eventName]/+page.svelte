@@ -6,7 +6,7 @@
 
 <!-- Make this into a reusable page that creates a checkin page for any uploaded CSV -->
 
-<h1>Check-in App</h1>
+<h1>Check-in: {data.table}</h1>
 <!-- <p>{JSON.stringify(data)}</p> -->
 <table>
   <tr>

@@ -47,6 +47,7 @@
 
 <h1>Check In App</h1>
 
+<!-- EXISTING CHECK-IN LISTS -->
 <h3>Current Check-ins:</h3>
 <!-- for each checkin list -->
 {#each data.tables as table }
@@ -56,27 +57,17 @@
 {/each}
 
 <hr>
+<!-- NEW CHECK-IN LIST -->
 <h3>New Check-in list</h3>
 <Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv" />
 {#each files as item}
-<h2>{item.name}</h2>
+<h2>{item.name.split(".", 1)}</h2>
 {/each}
   <form method="post" use:enhance>
-    <input type="text" name="eventName" value={files[0]?.name.split(",") ?? ''} /><br>
+    <input type="hidden" name="eventName" value={files[0]?.name.split(".",1) ?? ''} /><br>
     <textarea value={fileData} name="attendees" cols="100" rows="10"/>
     <button type="submit">Upload</button>
   </form>
 {#if form?.message && form?.message !== ''}
   <p style="color: red;">{form?.message}</p>
 {/if}
-
-<hr>
-<!-- COPYPASTE ATTENDEES LIST -->
-<!-- <h3>Or paste attendees here:</h3>
-<form method="post"> -->
-  <!-- <input type="text" name="eventName" id="eventName" placeholder="Event Name"><br> -->
-<!-- <textarea name="attendees" id="copypaste"
-cols="45" rows="10" placeholder="Paste attendees here"
-></textarea><br> -->
-<!-- <button type="submit" id="pasted">Parse</button>
-</form> -->
