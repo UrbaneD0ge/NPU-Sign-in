@@ -23,16 +23,19 @@ export const actions = {
     // console.log(eventName + ':\n' + attendees)
 
     // Create a new table with the event name
-    const { error: createError } = await supabase.rpc("create_table", { eventname: eventName });
+    const { data, error: createError } = await supabase.rpc("new_table", { eventname: eventName });
 
     if (createError) {
       console.log(createError)
       return {
         status: 500,
         body: createError,
-        message: "Error creating table" + JSON.stringify(createError),
+        message: "Create error: " + createError,
       };
     }
+
+    // return message from create table
+    console.log(data)
 
     // insert attendees into table
     for (let i = 0; i < attendees.length; i++) {
@@ -42,11 +45,11 @@ export const actions = {
         return {
           status: 500,
           body: error,
-          message: "Error inserting attendees into table" + JSON.stringify(error),
+          message: 'Insert error: ' + error,
         };
       }
 
-      console.log(data)
+      console.log("Inserted: " + data)
     };
 
 
@@ -59,31 +62,5 @@ export const actions = {
         location: `/+${eventName}`,
       },
     };
-
-    // return {
-    //   status: error ? 500 : 200,
-    //   body: error ? error : data,
-    // };
   },
-
-// // Accept uploaded csv file and insert into a new table?
-//   csv: async ({ request }) => {
-//     const form = await request.formData();
-//     const attendees = form.get("attendees");
-
-//       console.log(file)
-
-//       // TODO: Parse the table in the browser and insert into the table
-
-//       // insert attendees into table
-//       const { data, error } = await supabase.from(eventName).insert(attendees);
-
-//       // const { data, error } = await supabase.from("attendees").insert(attendees);
-
-//       return {
-//         status: error ? 500 : 200,
-//         body: error ? error : data,
-//       };
-//   }
-
 };

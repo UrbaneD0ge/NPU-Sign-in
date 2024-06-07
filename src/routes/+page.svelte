@@ -64,10 +64,10 @@
 <h2>{item.name.split(".", 1)}</h2>
 {/each}
   <form method="post" use:enhance>
-    <input type="hidden" name="eventName" value={files[0]?.name.split(".",1) ?? ''} /><br>
-    <textarea value={fileData} name="attendees" cols="100" rows="10"/>
+    <input type="text" name="eventName" value={files[0]?.name.split(".",1) ?? ''} /><br>
+    <textarea value={fileData} name="attendees" cols="100" rows="10"/><br>
     <button type="submit">Upload</button>
   </form>
 {#if form?.message && form?.message !== ''}
-  <p style="color: red;">{form?.message}</p>
+  <p style="color: red;">{JSON.stringify(form.message)}</p>
 {/if}
