@@ -44,6 +44,9 @@
   }
 </script>
 
+<svelte:head>
+  <title>Check-In App</title>
+</svelte:head>
 
 <h1>Check In App</h1>
 

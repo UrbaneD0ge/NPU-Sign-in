@@ -23,7 +23,7 @@ export const actions = {
     // console.log(eventName + ':\n' + attendees)
 
     // Create a new table with the event name
-    const { data, error: createError } = await supabase.rpc("new_table", { eventname: eventName });
+    const { data, error: createError } = await supabase.rpc("add_table", { eventname: eventName });
 
     if (createError) {
       console.log(createError)
@@ -37,30 +37,25 @@ export const actions = {
     // return message from create table
     console.log(data)
 
-    // insert attendees into table
-    for (let i = 0; i < attendees.length; i++) {
-      const { data, error } = await supabase.from(eventName).insert({ name: attendees[i] });
+  //   // insert attendees into table
+  //   // TODO: batch insert as JSON object
+  //   const { data, error } = await supabase.from(eventName).insert(attendees.map((name) => ({ name })));
+  //   console.log(attendees)
 
-      if (error) {
-        return {
-          status: 500,
-          body: error,
-          message: 'Insert error: ' + error,
-        };
-      }
-
-      console.log("Inserted: " + data)
-    };
-
-
-    console.log("data: " + data, "error: " + error)
-
-    // redirect to a dynamic page with the eventName
-    return {
-      status: 302,
-      headers: {
-        location: `/+${eventName}`,
-      },
-    };
-  },
+  //   if (error) {
+  //     return {
+  //       status: 500,
+  //       body: error,
+  //       message: 'Insert error: ' + error,
+  //     };
+  //   } else {
+  //     console.log("Inserted: " + data)
+  //   // return message from insert
+  //   return {
+  //     status: 200,
+  //     body: "Insert successful",
+  //     message: "Insert successful",
+  //   };
+  //   }
+  }
 };
