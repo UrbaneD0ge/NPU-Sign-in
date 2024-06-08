@@ -1,4 +1,5 @@
 import { supabase } from "$lib/supabaseClient.js";
+import { redirect } from "@sveltejs/kit";
 
 export async function load() {
   // Get all tables
@@ -51,11 +52,7 @@ export const actions = {
   //   } else {
   //     console.log("Inserted: " + data)
   //   // return message from insert
-  //   return {
-  //     status: 200,
-  //     body: "Insert successful",
-  //     message: "Insert successful",
-  //   };
+    redirect(303, `/${eventName}`)
   //   }
   }
 };

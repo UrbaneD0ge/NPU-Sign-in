@@ -2,7 +2,7 @@ import { supabase } from "$lib/supabaseClient";
 /** @type {import('./$types').PageData} */
 
 
-export async function load({ route, url }) {
+export async function load({ url }) {
   let table = url.pathname.split('/')[1]
   // console.log(table)
   const { data } = await supabase.from(table).select().order('names', {ascending: true});
