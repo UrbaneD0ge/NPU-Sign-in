@@ -4,8 +4,8 @@ import { supabase } from "$lib/supabaseClient";
 
 export async function load({ route, url }) {
   let table = url.pathname.split('/')[1]
-  console.log(table)
-  const { data } = await supabase.from(table).select();
+  // console.log(table)
+  const { data } = await supabase.from(table).select().order('names', {ascending: true});
   return {
     table: table,
     attendees: data ?? [],
@@ -17,16 +17,13 @@ export const actions = {
   default: async ({ request }) => {
     const data = await request.formData();
     const id = data.get("id");
+    const table = data.get("table");
     let checkedIn = data.get("checkedIn");
-    let table = data.get("table");
 
-    if (checkedIn === "true") {
-      checkedIn = "false";
-    } else {
-      checkedIn = "true";
-    }
-
-    console.log(id, checkedIn)
+    // flip the checkedIn status
+    checkedIn = checkedIn === "true" ? "false" : "true";
+        
+    console.log(checkedIn)
 
     const updateResult = await supabase
       .from(table)

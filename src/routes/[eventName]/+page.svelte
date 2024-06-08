@@ -2,10 +2,6 @@
 	import { enhance } from '$app/forms';
 
   export let data;
-
-  // sort attendees by name
-  data.attendees.sort((a, b) => a.names.localeCompare(b.names));
-  // TODO: Sort changes after check-in???
 </script>
 
 <!-- Make this into a reusable page that creates a checkin page for any uploaded CSV -->
@@ -61,7 +57,7 @@
     background-color: #f0f0f0;
     border: 1px solid black;
     padding: 0.5em;
-    /* width: 100%; */
+    width: 100%;
   }
   button:hover {
     background-color: #e0e0e0;
