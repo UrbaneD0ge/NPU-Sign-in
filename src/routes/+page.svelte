@@ -23,8 +23,8 @@
     // drop any columns past the first 3
     for (let i = 0; i < output.length; i++) {
       output[i] = output[i].slice(0, 3);
-    }
-    return output;
+      }
+    return output.toString().replace(/,/g, "\n").trim();
   }
 
   /**

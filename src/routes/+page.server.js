@@ -19,7 +19,13 @@ export const actions = {
     // Create a route that accepts a list of attendees and inserts them into a new table
     const form = await request.formData();
     const attendees = form.get("attendees");
-    const eventName = form.get("eventName");
+    let eventName = form.get("eventName");
+
+    // sanitize eventName
+    const regex = /[^a-zA-Z0-9]/g;
+    eventName = eventName.replace(regex, "") || "unnamed_event";
+
+    console.log(eventName)
 
     // Create a new table with the event name
     const { data, error: createError } = await supabase.rpc("create_new_table", { eventname: eventName });
@@ -29,23 +35,27 @@ export const actions = {
         return {
           status: 500,
           body: createError,
-          message: "Create error: ", createError,
+          message: "Create error: " + createError.message,
         };
       } else {
+
+        // sleep for 1 second to allow table to be created
+        await new Promise(resolve => setTimeout(resolve, 1500));
 
     // return message from create table
     console.log(data)
 
     // insert attendees into table
-    const { data: insertData, error } = await supabase.from(eventName).insert(attendees.split(',').map(name => ({ names: name })));
+    const { data: insertData, error } = await supabase.from(eventName).insert(attendees.split('\n').map(name => ({ names: name })));
 
     // console.log(attendees)
 
         if (error) {
+          console.log(error)
           return {
             status: 500,
             body: error,
-            message: 'Insert error: ' + JSON.stringify(error),
+            message: error,
           };
         } else {
           console.log("Inserted: " + insertData)
