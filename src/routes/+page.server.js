@@ -31,7 +31,7 @@ export const actions = {
       return {
         status: 500,
         body: createError,
-        message: "Create error: " + createError,
+        message: "Create error: ", createError,
       };
     }
 

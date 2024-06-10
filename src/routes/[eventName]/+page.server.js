@@ -20,10 +20,10 @@ export const actions = {
     const table = data.get("table");
     let checkedIn = data.get("checkedIn");
 
-    // flip the checkedIn status
-    checkedIn = checkedIn === "true" ? "false" : "true";
-        
-    console.log(checkedIn)
+    checkedIn = checkedIn === "true" ? false : true;
+
+    // console.log(checkedIn)
+    console.log(id, table, checkedIn)
 
     const updateResult = await supabase
       .from(table)

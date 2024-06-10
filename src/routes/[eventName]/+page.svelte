@@ -23,7 +23,7 @@
       <td>
         <form method="post" use:enhance>
           <input type="hidden" name="table" value={data.table}>
-          <input type="hidden" name="checkedIn" checked={attendee.checked_in} />
+          <input type="hidden" name="checkedIn" value={attendee.checked_in} checked={attendee.checked_in} />
           <input type="hidden" name="id" value={attendee.id} />
           <button type="submit" data-checkin={attendee.checked_in}>{attendee.checked_in ? 'Check OUT' : 'Check IN'}</button>
         </form></td>
@@ -58,6 +58,7 @@
     border: 1px solid black;
     padding: 0.5em;
     width: 100%;
+    border-radius: 5px;
   }
   button:hover {
     background-color: #e0e0e0;
