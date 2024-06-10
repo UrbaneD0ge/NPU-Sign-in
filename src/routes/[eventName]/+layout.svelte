@@ -2,12 +2,12 @@
 import {page} from '$app/stores';
 </script>
 
-<header>
+<nav>
   <h1>Check-In: {$page.url.pathname.split("/")[1]}</h1>
 <ul>
   <li><a href="/">Home</a></li>
 </ul>
-</header>
+</nav>
 
 
 <slot/>
@@ -15,5 +15,11 @@ import {page} from '$app/stores';
 <style>
   h1 {
     text-align: center;
+  }
+  nav ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
   }
 </style>

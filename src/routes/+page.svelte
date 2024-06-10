@@ -62,6 +62,7 @@
     <td>
       <form action="?/dropTable" method="post" use:enhance>
         <input type="hidden" name="eventName" value={table} />
+        <!-- Add a confirmation dialog to prevent accidental deletes -->
         <button type="submit">Delete</button>
   </tr>
 {/each}
