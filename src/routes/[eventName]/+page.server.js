@@ -14,7 +14,22 @@ export async function load({ url }) {
 
 // Create a svelte action to flip 'checked_in' status
 export const actions = {
-  default: async ({ request }) => {
+  add_attendee: async ({ request }) => {
+    const data = await request.formData();
+    const table = data.get("table");
+    const name = data.get("name");
+
+    console.log('add',table, name)
+
+    const { data: insertData, error: insertError } = await supabase.from(table).insert({ names: name });
+
+    return {
+      status: insertError ? 500 : 200,
+      body: insertError ? insertError : insertData,
+      message: insertError ? "Insert error: " + JSON.stringify(insertError) : "Inserted: " + name,
+    };
+  },
+  checkIn: async ({ request }) => {
     const data = await request.formData();
     const id = data.get("id");
     const table = data.get("table");

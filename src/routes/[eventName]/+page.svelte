@@ -1,7 +1,7 @@
 <script>
 	import { enhance } from '$app/forms';
 
-  export let data;
+  export let data, form;
 </script>
 
 <!-- Make this into a reusable page that creates a checkin page for any uploaded CSV -->
@@ -21,7 +21,7 @@
     <td>{attendee.names}</td>
       <!-- <td>{attendee.checked_in ? 'Yes':'No'}</td> -->
       <td>
-        <form method="post" use:enhance>
+        <form action="?/checkIn" method="post" use:enhance>
           <input type="hidden" name="table" value={data.table}>
           <input type="hidden" name="checkedIn" value={attendee.checked_in} checked={attendee.checked_in} />
           <input type="hidden" name="id" value={attendee.id} />
@@ -31,9 +31,19 @@
   {/each}
 </table>
 
+{#if form?.message}
+  <p>{form.message}</p>
+{/if}
+
+<form action="?/add_attendee" method="post" use:enhance>
+  <input type="hidden" name="table" value={data.table}>
+  <input type="text" name="name" placeholder="Name" required>
+  <button type="submit">Add Attendee</button>
+</form>
+
 <style>
     table {
-    margin: 0 auto;
+    margin: 30px auto;
     border-collapse: collapse;
     min-width: 40%;
   }
@@ -49,9 +59,6 @@
   }
   tr:nth-child(odd) {
     background-color: #f8f8f8;
-  }
-  form {
-    display: inline;
   }
   button {
     background-color: #f0f0f0;

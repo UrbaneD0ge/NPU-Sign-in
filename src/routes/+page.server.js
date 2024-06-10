@@ -24,7 +24,7 @@ export const actions = {
     // console.log(eventName + ':\n' + attendees)
 
     // Create a new table with the event name
-    const { data, error: createError } = await supabase.rpc("add_table", { eventname: eventName });
+    const { data, error: createError } = await supabase.rpc("new_table", { eventname: eventName });
 
     if (createError) {
       console.log(createError)
