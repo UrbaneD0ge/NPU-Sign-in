@@ -15,44 +15,62 @@ export async function load() {
 
 export const actions = {
   // Accept a pasted list of attendees and insert into a new table
-  default: async ({ request }) => {
+  newTable: async ({ request }) => {
     // Create a route that accepts a list of attendees and inserts them into a new table
     const form = await request.formData();
     const attendees = form.get("attendees");
     const eventName = form.get("eventName");
 
-    // console.log(eventName + ':\n' + attendees)
-
     // Create a new table with the event name
-    const { data, error: createError } = await supabase.rpc("new_table", { eventname: eventName });
+    const { data, error: createError } = await supabase.rpc("create_new_table", { eventname: eventName });
 
-    if (createError) {
-      console.log(createError)
-      return {
-        status: 500,
-        body: createError,
-        message: "Create error: ", createError,
-      };
-    }
+      if (createError) {
+        console.log(createError)
+        return {
+          status: 500,
+          body: createError,
+          message: "Create error: ", createError,
+        };
+      } else {
 
     // return message from create table
     console.log(data)
 
-  //   // insert attendees into table
-  //   // TODO: batch insert as JSON object
-  //   const { data, error } = await supabase.from(eventName).insert(attendees.map((name) => ({ name })));
-  //   console.log(attendees)
+    // insert attendees into table
+    const { data: insertData, error } = await supabase.from(eventName).insert(attendees.split(',').map(name => ({ names: name })));
 
-  //   if (error) {
-  //     return {
-  //       status: 500,
-  //       body: error,
-  //       message: 'Insert error: ' + error,
-  //     };
-  //   } else {
-  //     console.log("Inserted: " + data)
-  //   // return message from insert
-    redirect(303, `/${eventName}`)
-  //   }
+    // console.log(attendees)
+
+        if (error) {
+          return {
+            status: 500,
+            body: error,
+            message: 'Insert error: ' + JSON.stringify(error),
+          };
+        } else {
+          console.log("Inserted: " + insertData)
+          // return message from insert
+          redirect(303, `/${eventName}`)
+            }
+      }
+  },
+  dropTable: async ({ request }) => {
+    // Create a route that accepts a list of attendees and inserts them into a new table
+    const form = await request.formData();
+    const eventName = form.get("eventName");
+
+    // Create a new table with the event name
+    const { data: dropData, error: dropError } = await supabase.rpc("drop_table", { eventname: eventName });
+
+    if (dropError) {
+      console.log(dropError)
+      return {
+        status: 500,
+        body: dropError,
+        message: "Drop error: ", dropError,
+      };
+    } else {
+      console.log(dropData)
+    }
   }
 };

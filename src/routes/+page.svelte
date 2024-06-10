@@ -51,22 +51,32 @@
 <h1>Check In App</h1>
 
 <!-- EXISTING CHECK-IN LISTS -->
-<h3>Current Check-ins:</h3>
+<table>
+  <thead>
+    <h3> Current Check-ins:</h3>
+  </thead>
 <!-- for each checkin list -->
 {#each data.tables as table }
-<ul>
-  <li><a href="/{table}">{table}</a></li>
-</ul>
+  <tr>
+    <td><a href="/{table}">{table}</a></td>
+    <td>
+      <form action="?/dropTable" method="post" use:enhance>
+        <input type="hidden" name="eventName" value={table} />
+        <button type="submit">Delete</button>
+  </tr>
 {/each}
+</table>
 
 <hr>
 <!-- NEW CHECK-IN LIST -->
 <h3>New Check-in list</h3>
-<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv" />
+<div id="dropZone">
+  <Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv" />
+<br><br>
 {#each files as item}
 <h2>{item.name.split(".", 1)}</h2>
 {/each}
-  <form method="post" use:enhance>
+  <form action="?/newTable" method="post" use:enhance>
     <input type="text" name="eventName" value={files[0]?.name.split(".",1) ?? ''} /><br>
     <textarea value={fileData} name="attendees" cols="100" rows="10"/><br>
     <button type="submit">Upload</button>
@@ -74,3 +84,43 @@
 {#if form?.message && form?.message !== ''}
   <p style="color: red;">{JSON.stringify(form.message)}</p>
 {/if}
+</div>
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    /* border: #d5d5d5 1px solid; */
+  }
+
+  td {
+    /* border: 1px solid black; */
+    padding: 8px;
+    text-align: left;
+  }
+  td:nth-child(even) {
+   text-align: right;
+  }
+
+  tr:nth-child(even) {
+    background-color: #d5d5d5;
+  }
+  table button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  #dropZone {
+    width: 60%;
+    padding: 20px;
+    text-align: center;
+    margin: 20px auto;
+  }
+</style>

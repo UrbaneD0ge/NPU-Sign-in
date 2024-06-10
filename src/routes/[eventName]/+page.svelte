@@ -31,18 +31,27 @@
   {/each}
 </table>
 
-{#if form?.message}
-  <p>{form.message}</p>
+<div id="addAttendee">
+  {#if form?.message}
+<p>{form.message}</p>
 {/if}
 
 <form action="?/add_attendee" method="post" use:enhance>
-  <input type="hidden" name="table" value={data.table}>
-  <input type="text" name="name" placeholder="Name" required>
-  <button type="submit">Add Attendee</button>
+<input type="hidden" name="table" value={data.table}>
+<input type="text" name="name" placeholder="Name" required>
+<button type="submit">Add Attendee</button>
 </form>
+</div>
 
 <style>
-    table {
+  input {
+    width: 100%;
+    padding: 0.5em;
+    margin-block: 0.5em;
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+  table {
     margin: 30px auto;
     border-collapse: collapse;
     min-width: 40%;
@@ -69,6 +78,11 @@
   }
   button:hover {
     background-color: #e0e0e0;
+  }
+  #addAttendee {
+    margin: 30px auto;
+    width: 40%;
+
   }
   [data-checkin="true"] {
     background-color: red;
