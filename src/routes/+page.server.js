@@ -82,5 +82,27 @@ export const actions = {
     } else {
       console.log(dropData)
     }
+  },
+  download: async ({ request }) => {
+    const form = await request.formData();
+    const eventName = form.get("eventName");
+
+    const { data, error } = await supabase.from(eventName).select();
+
+    if (error) {
+      return {
+        status: 500,
+        body: error,
+        message: error,
+      };
+    } else {
+      return {
+        headers: {
+          "Content-Disposition": `attachment; filename=${eventName}.csv`,
+          "Content-Type": "text/csv",
+        },
+        body: data.map((row) => row.names).join("\n"),
+      };
+    }
   }
 };

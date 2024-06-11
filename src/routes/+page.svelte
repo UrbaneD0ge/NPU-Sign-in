@@ -53,17 +53,27 @@
 <!-- EXISTING CHECK-IN LISTS -->
 <table>
   <thead>
-    <h3> Current Check-ins:</h3>
+    <h3> Current Lists:</h3>
   </thead>
 <!-- for each checkin list -->
 {#each data.tables as table }
   <tr>
     <td><a href="/{table}">{table}</a></td>
+
+    <td>
+      <form action="?/download" method="post" use:enhance>
+        <input type="hidden" name="eventName" value={table} />
+        <button id="download" type="submit">Download</button>
+      </form>
+    </td>
+
     <td>
       <form action="?/dropTable" method="post" use:enhance>
         <input type="hidden" name="eventName" value={table} />
         <!-- Add a confirmation dialog to prevent accidental deletes -->
-        <button type="submit">Delete</button>
+        <button id="delete" type="submit">Delete</button>
+      </form>
+    </td>
   </tr>
 {/each}
 </table>
@@ -71,6 +81,11 @@
 <hr>
 <!-- NEW CHECK-IN LIST -->
 <h3>New Check-in list</h3>
+<ul>
+  <li>Drop a CSV with all names in a <b>single column</b>, or paste a list with each name on a new line.</li>
+  <li>Be sure to <b>remove any commas</b> inside names.</li>
+  <li>Do not include column labels.</li>
+</ul>
 <div id="dropZone">
   <Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv" />
 <br><br>
@@ -106,8 +121,8 @@
     background-color: #d5d5d5;
   }
   table button {
-    background-color: #f44336;
-    color: white;
+    /* background-color: #f44336; */
+    /* color: white; */
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
@@ -133,6 +148,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    text-align: center;
   }
 
   textarea {
@@ -154,5 +170,15 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+  }
+
+  #delete {
+    background-color: #f44336;
+    color: white;
+  }
+
+  #download {
+    background-color: rgb(58, 58, 186);
+    color: white;
   }
 </style>
