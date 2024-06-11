@@ -78,9 +78,9 @@
 <h2>{item.name.split(".", 1)}</h2>
 {/each}
   <form action="?/newTable" method="post" use:enhance>
-    <input type="text" name="eventName" value={files[0]?.name.split(".",1) ?? ''} /><br>
+    <input id="eventName" type="text" name="eventName" value={files[0]?.name.split(".",1) ?? ''} /><br>
     <textarea value={fileData} name="attendees" cols="100" rows="10"/><br>
-    <button type="submit">Upload</button>
+    <button id="uploadButton" type="submit">Upload</button>
   </form>
 {#if form?.message && form?.message !== ''}
   <p style="color: red;">{JSON.stringify(form.message)}</p>
@@ -123,5 +123,36 @@
     padding: 20px;
     text-align: center;
     margin: 20px auto;
+  }
+
+  #eventName {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  #uploadButton {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
   }
 </style>
