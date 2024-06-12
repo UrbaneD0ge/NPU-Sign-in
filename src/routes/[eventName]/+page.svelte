@@ -7,7 +7,7 @@
 <!-- Make this into a reusable page that creates a checkin page for any uploaded CSV -->
 
 <svelte:head>
-  <title>Check-In: {data.table}</title>
+  <title>Check-In: {decodeURIComponent(data.table)}</title>
 </svelte:head>
 
 <table>

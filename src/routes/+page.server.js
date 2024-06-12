@@ -22,7 +22,7 @@ export const actions = {
     let eventName = form.get("eventName");
 
     // sanitize eventName
-    const regex = /[^a-zA-Z0-9]/g;
+    const regex = /[^a-zA-Z0-9\_]/g;
     eventName = eventName.replace(regex, "") || "unnamed_event";
 
     console.log(eventName)
