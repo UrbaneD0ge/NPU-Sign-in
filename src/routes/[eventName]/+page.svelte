@@ -37,21 +37,28 @@
 <p>{form.message}</p>
 {/if}
 
-<form action="?/add_attendee" method="post" use:enhance>
-<input type="hidden" name="table" value={data.table}>
-<input type="text" name="name" placeholder="Name" required>
-<button type="submit">Add Attendee</button>
-</form>
+
+  <form action="?/add_attendee" method="post" use:enhance>
+    <input type="hidden" name="table" value={data.table}>
+    <input type="text" name="name" placeholder="Name" required>
+    <button id="addButton" type="submit">Add Attendee</button>
+  </form>
+
 </div>
 
 <style>
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   input {
     width: 100%;
     padding: 0.5em;
     margin-block: 0.5em;
     border: 1px solid black;
     border-radius: 5px;
-  }
+   }
   table {
     margin: 30px auto;
     border-collapse: collapse;
@@ -81,7 +88,6 @@
     width: 100%;
     border-radius: 5px;
   }
-
   button[data-checkin] {
     padding: 1rem;
   }
@@ -91,8 +97,15 @@
   }
   #addAttendee {
     margin: 30px auto;
-    width: 40%;
-
+    width: 50%;
+    box-sizing: border-box;
+  }
+  #addButton {
+    background-color: teal;
+    border: 1px solid black;
+    padding: 1em;
+    width: 100%;
+    border-radius: 5px;
   }
   [data-checkin="true"] {
     background-color: red;
