@@ -16,9 +16,10 @@
     <th>Check-in</th>
     <!-- <th>ID</th> -->
   </tr>
+
   {#each data.attendees as attendee}
   <tr>
-    <td>{attendee.names}</td>
+    <td><h6>{attendee.names}</h6></td>
       <!-- <td>{attendee.checked_in ? 'Yes':'No'}</td> -->
       <td>
         <form action="?/checkIn" method="post" use:enhance>
@@ -54,7 +55,7 @@
   table {
     margin: 30px auto;
     border-collapse: collapse;
-    min-width: 40%;
+    min-width: 60%;
   }
   th, td {
     border: 1px solid black;
@@ -69,6 +70,10 @@
   tr:nth-child(odd) {
     background-color: #f8f8f8;
   }
+  h6 {
+    margin: 0;
+    font-size: large;
+  }
   button {
     background-color: #f0f0f0;
     border: 1px solid black;
@@ -76,8 +81,13 @@
     width: 100%;
     border-radius: 5px;
   }
+
+  button[data-checkin] {
+    padding: 1rem;
+  }
+
   button:hover {
-    background-color: #e0e0e0;
+    cursor: pointer;
   }
   #addAttendee {
     margin: 30px auto;
@@ -87,8 +97,16 @@
   [data-checkin="true"] {
     background-color: red;
   }
+  [data-checkin="true"]:hover {
+    background-color: darkred;
+
+  }
   [data-checkin="false"] {
     background-color: green;
+    color: white;
+  }
+  [data-checkin="false"]:hover {
+    background-color: darkgreen;
     color: white;
   }
 </style>
