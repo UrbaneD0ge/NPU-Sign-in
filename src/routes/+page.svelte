@@ -3,6 +3,9 @@
   import Dropzone from "svelte-file-dropzone";
   export let data, form;
 
+  let blob = new Blob([""], { type: "text/csv" });
+  let url = URL.createObjectURL(blob);
+
   /**
 	 * @type {string | any[]}
 	 */
@@ -61,10 +64,14 @@
     <td><a href="/{table}">{table}</a></td>
 
     <td>
+      {#if form?.body && form.body !== ''}
+      <a href={form?.body} download={table + ".csv"}>Download</a>
+      {:else}
       <form action="?/download" method="post" use:enhance>
         <input type="hidden" name="eventName" value={table} />
         <button id="download" type="submit">Download</button>
       </form>
+      {/if}
     </td>
 
     <td>
