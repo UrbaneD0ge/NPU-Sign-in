@@ -2,6 +2,10 @@
 	import { enhance } from '$app/forms';
 
   export let data, form;
+
+  let total = data.attendees.length;
+  let checkedIn = data.attendees.filter(attendee => attendee.checked_in).length;
+  let checkedOut = data.attendees.filter(attendee => !attendee.checked_in).length;
 </script>
 
 <!-- Make this into a reusable page that creates a checkin page for any uploaded CSV -->
@@ -9,6 +13,8 @@
 <svelte:head>
   <title>Check-In: {decodeURIComponent(data.table)}</title>
 </svelte:head>
+
+<p id="summary">Present: <b>{checkedIn}</b> | Absent: <b>{checkedOut}</b> | Total: <b>{total}</b></p>
 
 <table>
   <tr>
@@ -106,6 +112,11 @@
     padding: 1em;
     width: 100%;
     border-radius: 5px;
+  }
+
+  #summary {
+    text-align: center;
+    margin: 15px auto;
   }
   [data-checkin="true"] {
     background-color: red;
